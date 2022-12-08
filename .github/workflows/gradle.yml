@@ -30,3 +30,8 @@ jobs:
       with:
         name: jacoco-report
         path: triangle/lib/build/reports/jacoco/test/html/
+    - name: Upload library JAR
+      uses: actions/upload-artifact@v3.1.1
+      with:
+        name: lib.jar
+        path: triangle/lib/build/libs/lib.jar
