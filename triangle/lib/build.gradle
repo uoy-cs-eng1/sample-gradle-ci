@@ -3,6 +3,8 @@ plugins {
     id 'java-library'
     // Use the JaCoCo plugin to calculate code coverage
     id 'jacoco'
+    // Use the Checkstyle plugin to enforce a coding style
+    id 'checkstyle'
 }
 
 repositories {
@@ -10,12 +12,27 @@ repositories {
     mavenCentral()
 }
 
+def checkstyleVersion = '10.4'
+
+configurations {
+  checkstyleRules
+}
+
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+
+    checkstyleRules("com.puppycrawl.tools:checkstyle:${checkstyleVersion}") {
+        transitive = false
+    }
 }
 
 test {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+checkstyle {
+    toolVersion "${checkstyleVersion}"
+    config = resources.text.fromArchiveEntry(configurations.checkstyleRules, 'google_checks.xml')
 }
