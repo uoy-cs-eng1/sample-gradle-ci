@@ -33,17 +33,21 @@ jobs:
       with:
         name: jacoco-report-${{ matrix.os }}
         path: triangle/lib/build/reports/jacoco/test/html/
+        # Keep the JAR for a week, to manage quota usage
+        retention-days: 7
     - name: Upload library JAR
       uses: actions/upload-artifact@v4.3.1
       with:
         name: lib-${{ matrix.os }}.jar
         path: triangle/lib/build/libs/lib.jar
+        retention-days: 7
     - name: Upload Checkstyle report
       uses: actions/upload-artifact@v4.3.1
       if: startsWith(matrix.os, 'ubuntu')
       with:
         name: checkstyle-report
         path: triangle/lib/build/reports/checkstyle
+        retention-days: 7
 
   dependency-submission:
     runs-on: ubuntu-latest
